@@ -1,1 +1,24 @@
+* {
+    box-sizing:border-box;
+}
 
+/* Navbar */
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    padding: 0px 20px;
+    background-color: black;
+    border-bottom: 1px solid brown;
+}
+
+nav a{
+    color: teal;
+    text-decoration: none;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+nav div a {
+    margin-right: 20px;
+}
