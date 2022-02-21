@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase';
 
 const Register = () => {
 
@@ -18,10 +20,15 @@ const Register = () => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    console.log(data);
+    setData({...data, error: null, loading: true});
 
     if(!name || !email || !password) {
       setData({...data, error: 'All fields are required!'});
+    }
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      
     }
   };
 
