@@ -9,7 +9,7 @@ const Navbar = () => {
   const handleSignout = async () => {
     await updateDoc(doc(db, 'users', auth.currentUser.uid), {
       isOnline: false,
-    })
+    });
     await signOut(auth);
   };
 
