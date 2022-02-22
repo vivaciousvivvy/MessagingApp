@@ -74,6 +74,18 @@ section .form {
     transform: scale(1.05);
 }
 
+.logout-btn {
+    padding: 10px;
+    outline: none;
+    border: 1px solid black;
+    background-color: black;
+    color: teal;
+    cursor: pointer;
+    transition: 0.3s ease-in-out all;
+    font-size: 16px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
 .error {
     text-align: center;
     color: red;
