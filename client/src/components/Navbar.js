@@ -1,8 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
+import { signOut } from 'firebase/auth'
+import { updateDoc, doc } from 'firebase/firestore'
 
 const Navbar = () => {
+
+  const handleSignout = async () => {
+    await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+      isOnline: false,
+    })
+    await signOut(auth);
+  };
+
   return (
     <nav>
         <h3>
@@ -12,7 +22,7 @@ const Navbar = () => {
           {auth.currentUser ? (
           <>
             <Link to='/profile'>Profile</Link>
-            <button className='btn'>Logout</button>
+            <button className='btn' onClick={handleSignout}>Logout</button>
           </> 
             ) : (
           <>
