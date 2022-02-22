@@ -63,7 +63,9 @@ const Register = () => {
         </div>
         {error ? <p className='error'>{error}</p> : null}
         <div className='btn_container'>
-          <button className='btn' disabled={loading}>Register</button>
+          <button className='btn' disabled={loading}>
+          {loading ? 'Registering ...' : 'Register'}
+          </button>
         </div>
       </form>
     </section>
