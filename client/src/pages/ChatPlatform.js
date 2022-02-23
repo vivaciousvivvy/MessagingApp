@@ -10,13 +10,14 @@ let socket;
 const ChatPlatform = () => {
   const [userName, setUserName] = useState('');
   const [roomId, setRoomId] = useState('');
+  const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
   const params = useParams();
 
   useEffect(() => {
-    const {username, roomId } = params;
+    const {userName, roomId } = params;
     socket = io('http://localhost:5000');
     setUserName(userName);
     setRoomId(roomId);
@@ -26,6 +27,17 @@ const ChatPlatform = () => {
         alert(error);
     })
   }, [params])
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setMessages((messages) => [...messages, message]);
+    })
+    
+    socket.on('roomData', ({ users }) => {
+      setUsers(users);
+    })
+  }, [])
+  
   
 
   return (
