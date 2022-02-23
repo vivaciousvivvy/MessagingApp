@@ -18,6 +18,7 @@ const Messages = ({ messages, userName }) => {
       {messages.map((message, i) => (
         <Message key={i} message={message} userName={userName}/>
       ))}
+      <div ref={messagesEndRef} />
     </main>
   )
 }
