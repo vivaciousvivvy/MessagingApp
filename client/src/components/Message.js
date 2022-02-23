@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactEmoji from 'react-emoji'
 
 const Message = ({ message : {user, textContent}, userName }) => {
   let sentByThisUser = false;
@@ -13,11 +14,11 @@ const Message = ({ message : {user, textContent}, userName }) => {
       <div className='msg-bubble'>
         <div className='msg-info'>
           <div className='msg-info-name'>
-            <u>John</u>
+            <u>$user</u>
           </div>
         </div>
 
-        <div className='msg-text'>text content</div>
+        <div className='msg-text'>{ ReactEmoji.emojify(textContent)}</div>
       </div>
     </div> ) : ( 
     <div className='msg right-msg'>
