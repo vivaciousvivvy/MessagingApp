@@ -1,11 +1,11 @@
 import React from 'react'
 
-const ChatRoomHeader = ({ roomName }) => {
+const ChatRoomHeader = ({ roomId }) => {
   return (
     <section className='msger'>
       <header className='msger-header'></header>
         <div className='msger-header-title'>
-          MessageFast
+          MessageFast Room: {roomId}
         </div>
         <div className='mesger-header-options'>
           <span><a href='/'>Leave Chat Room</a></span>
