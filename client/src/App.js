@@ -6,6 +6,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import AuthProvider from './context/auth';
 import PrivateRoute from './components/PrivateRoute';
+import ChatPlatform from './pages/ChatPlatform';
 
 function App() {
   return (
@@ -18,6 +19,12 @@ function App() {
           <Route path="/" element={
           <PrivateRoute>
             <Home />
+          </PrivateRoute>
+        } 
+          />
+          <Route path="/chatting/:roomId/:userName" element={
+          <PrivateRoute>
+            <ChatPlatform />
           </PrivateRoute>
         } 
           />
