@@ -8,7 +8,7 @@ const Message = ({ message : {user, textContent}, userName }) => {
   }
   return (
       <>
-      {!sentByThisUser ? 
+      {!sentByThisUser ? (
       <div className='msg left-msg'>
       <div className='msg-bubble'>
         <div className='msg-info'>
@@ -19,7 +19,7 @@ const Message = ({ message : {user, textContent}, userName }) => {
 
         <div className='msg-text'>text content</div>
       </div>
-    </div> : 
+    </div> ) : ( 
     <div className='msg right-msg'>
     <div className='msg-bubble'>
       <div className='msg-info'>
@@ -30,7 +30,8 @@ const Message = ({ message : {user, textContent}, userName }) => {
 
       <div className='msg-text'>text content</div>
     </div>
-  </div> }
+  </div>
+  )}
     </>
   )
 }
