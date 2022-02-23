@@ -1,8 +1,9 @@
 import React from 'react'
+import ChatRoomHeader from '../components/ChatRoomHeader'
 
 const ChatPlatform = () => {
   return (
-    <div>ChatPlatform</div>
+    <ChatRoomHeader />
   )
 }
 
