@@ -15,7 +15,7 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
   console.log(socket.id);
   socket.on('join', ({userName, roomId }, callback) => {
-    const {error, user} = addNewUser({ id: socket.id, userName, roomId});
+    const {error, user } = addNewUser({ id: socket.id, userName, roomId});
 
     if(error) {
       return callback(error);
