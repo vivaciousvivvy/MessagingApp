@@ -1,5 +1,6 @@
 import React from 'react'
 import ChatRoomHeader from '../components/ChatRoomHeader'
+import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
 
 const ChatPlatform = () => {
@@ -7,6 +8,7 @@ const ChatPlatform = () => {
     <section>
       <ChatRoomHeader />
       <Messages />
+      <MessageInput />
     </section>
   )
 }
