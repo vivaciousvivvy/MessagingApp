@@ -24,7 +24,7 @@ io.on('connection', (socket) => {
     socket.join(user.roomId);
 
     socket.emit('message', {
-      user : 'admin',
+      user: 'admin',
       textContent: `${user.userName} has joined!`,
     })
 
