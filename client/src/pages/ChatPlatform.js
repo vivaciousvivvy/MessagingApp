@@ -38,13 +38,20 @@ const ChatPlatform = () => {
     })
   }, [])
   
-  
+
+  const sendMessage = (event) => {
+    event.preventDefault();
+    if(message) {
+      socket.emit('sendMessage', message, () => setMessage(''));
+    }
+  }
+  console.log(users);
 
   return (
     <section>
-      <ChatRoomHeader />
+      <ChatRoomHeader roomId={roomId}/>
       <Messages messages={messages} userName={userName}/>
-      <MessageInput />
+      <MessageInput sendMessage={sendMessage} message={message} setMessage={setMessage}/>
     </section>
   )
 }
