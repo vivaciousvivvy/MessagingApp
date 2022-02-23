@@ -7,7 +7,7 @@ const ChatRoomHeader = ({ roomId }) => {
         <div className='msger-header-title'>
           MessageFast Room: {roomId}
         </div>
-        <div className='mesger-header-options'>
+        <div className='msger-header-options'>
           <span><a href='/'>Leave Chat Room</a></span>
         </div>
     </section>
