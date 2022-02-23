@@ -43,7 +43,7 @@ const ChatPlatform = () => {
   return (
     <section>
       <ChatRoomHeader />
-      <Messages messages={messages}/>
+      <Messages messages={messages} userName={userName}/>
       <MessageInput />
     </section>
   )
