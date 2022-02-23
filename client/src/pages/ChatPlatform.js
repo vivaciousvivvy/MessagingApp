@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import io from 'socket.io-client'
 import ChatRoomHeader from '../components/ChatRoomHeader'
@@ -43,7 +43,7 @@ const ChatPlatform = () => {
   return (
     <section>
       <ChatRoomHeader />
-      <Messages />
+      <Messages messages={messages}/>
       <MessageInput />
     </section>
   )
