@@ -45,7 +45,7 @@ const ChatPlatform = () => {
       socket.emit('sendMessage', message, () => setMessage(''));
     }
   }
-  console.log(users);
+  //console.log(users);
 
   return (
     <section>
