@@ -14,7 +14,7 @@ const Message = ({ message : {user, textContent}, userName }) => {
       <div className='msg-bubble'>
         <div className='msg-info'>
           <div className='msg-info-name'>
-            <u>$user</u>
+            <u>{user}</u>
           </div>
         </div>
 
@@ -25,7 +25,7 @@ const Message = ({ message : {user, textContent}, userName }) => {
     <div className='msg-bubble'>
       <div className='msg-info'>
         <div className='msg-info-name'>
-          <u>$user</u>
+          <u>{user}</u>
         </div>
       </div>
 
