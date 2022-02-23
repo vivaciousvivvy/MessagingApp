@@ -1,5 +1,7 @@
+const { text } = require('express');
 const express = require('express')
-const { createServer } = require('http')
+const { createServer } = require('http');
+const { stringify } = require('querystring');
 const { Server } = require('socket.io')
 const { addNewUser, removeExistUser, getUser, getUsersInARoom } = require('./users');
 
@@ -39,6 +41,31 @@ io.on('connection', (socket) => {
     })
 
     callback();
+  })
+
+
+  socket.on('sendMessage', (message, callback) => {
+    const user = getUser(socket.id);
+
+    io.to(user.roomId).emit('message', { user: user.userName, textContent: message });
+
+    callback();
+  })
+
+  socket.on('disconnect', () => {
+    const user = removeExistUser(socket.id);
+
+    if(user) {
+      io.to(user.roomId).emit('message', {
+        user: 'admin',
+        textContent: `${user.userName} has left!`,
+      })
+
+      io.to(user.roomId).emit('roomData', {
+        roomId: user.roomId,
+        users: getUsersInARoom(user.roomId),
+      })
+    }
   })
 })
 
