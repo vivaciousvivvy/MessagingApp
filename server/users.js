@@ -21,10 +21,12 @@ const addNewUser = ({id, userName, roomId}) => {
         }
     }
     
-    users.push({id, userName, roomId});
+    const user = { id, userName, roomId};
+
+    users.push(user);
     
     
-    return { users };
+    return { user };
 }
 
 
@@ -41,7 +43,7 @@ const getUser = (id) => users.find((user) => user.id === id);
 
 
 const getUsersInARoom = (roomId) => {
-    roomId = roomId.trim.toLowerCase();
+    roomId = roomId.trim().toLowerCase();
     return users.filter((user) => user.roomId === roomId);
 }
 
