@@ -21,7 +21,7 @@ const addNewUser = ({id, userName, roomId}) => {
         }
     }
     
-    users.push({id, username, roomId});
+    users.push({id, userName, roomId});
     
     
     return { users };
