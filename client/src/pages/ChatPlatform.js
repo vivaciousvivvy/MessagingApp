@@ -4,8 +4,8 @@ import io from 'socket.io-client'
 import ChatRoomHeader from '../components/ChatRoomHeader'
 import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
-import { db } from '../firebase';
-import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; 
+import { auth, db } from '../firebase';
+import { doc, getDoc, setDoc, updateDoc, arrayUnion, exists} from "firebase/firestore"; 
 
 let socket;
 
@@ -16,6 +16,7 @@ const ChatPlatform = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  const currentUserId = auth.currentUser.uid;
   const params = useParams();
 
   useEffect(() => {
@@ -28,15 +29,26 @@ const ChatPlatform = () => {
       if(error) 
         alert(error);
     })
-//TODO: Query email and associate it with the name in the db
+
+    const docRef = doc(db, "chats", currentUserId);
+    const docSnap = getDoc(docRef);
+
+    getDoc(doc(db, "chats", currentUserId)).then(docSnap => {
+      if (!docSnap.exists()) {
+        setDoc(doc(db, "chats", currentUserId), {
+          routes: arrayUnion("/chatting/" + roomId + "/" + userName)
+        });
+      }
+    })
+
     try {
-      updateDoc(doc(db, "chats", roomId), {
-        users: arrayUnion(userName)
+      updateDoc(doc(db, "chats", currentUserId), {
+        routes: arrayUnion("/chatting/" + roomId + "/" + userName)
       });
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-  }, [params])
+  }, [params, currentUserId])
 
   useEffect(() => {
     socket.on('message', (message) => {
