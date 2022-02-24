@@ -62,6 +62,23 @@ const ChatPlatform = () => {
     event.preventDefault();
     if(message) {
       socket.emit('sendMessage', message, () => setMessage(''));
+    
+      getDoc(doc(db, "chat history", roomId)).then(docSnap => {
+        if (!docSnap.exists()) {
+          setDoc(doc(db, "chat history", roomId), {
+            messages: arrayUnion(currentUserId + ":" + message)
+          });
+        }
+      })
+
+      try {
+        updateDoc(doc(db, "chat history", roomId), {
+          messages: arrayUnion(currentUserId + ":" + message)
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+
     }
   }
   //console.log(users);
