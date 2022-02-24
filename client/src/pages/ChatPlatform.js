@@ -28,7 +28,7 @@ const ChatPlatform = () => {
       if(error) 
         alert(error);
     })
-
+//TODO: Query email and associate it with the name in the db
     try {
       updateDoc(doc(db, "chats", roomId), {
         users: arrayUnion(userName)
