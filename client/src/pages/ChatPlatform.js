@@ -5,7 +5,7 @@ import ChatRoomHeader from '../components/ChatRoomHeader'
 import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
 import { auth, db } from '../firebase';
-import { doc, getDoc, setDoc, updateDoc, arrayUnion, exists} from "firebase/firestore"; 
+import { doc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore"; 
 
 let socket;
 
