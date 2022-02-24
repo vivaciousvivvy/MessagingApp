@@ -4,6 +4,8 @@ import io from 'socket.io-client'
 import ChatRoomHeader from '../components/ChatRoomHeader'
 import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
+import { db } from '../firebase';
+import { doc, getDoc, setDoc, updateDoc, arrayUnion } from "firebase/firestore"; 
 
 let socket;
 
@@ -26,6 +28,14 @@ const ChatPlatform = () => {
       if(error) 
         alert(error);
     })
+
+    try {
+      updateDoc(doc(db, "chats", roomId), {
+        users: arrayUnion(userName)
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
   }, [params])
 
   useEffect(() => {
