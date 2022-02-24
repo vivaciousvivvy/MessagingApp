@@ -30,19 +30,16 @@ const ChatPlatform = () => {
         alert(error);
     })
 
-    const docRef = doc(db, "chats", currentUserId);
-    const docSnap = getDoc(docRef);
-
-    getDoc(doc(db, "chats", currentUserId)).then(docSnap => {
+    getDoc(doc(db, "users' chats", currentUserId)).then(docSnap => {
       if (!docSnap.exists()) {
-        setDoc(doc(db, "chats", currentUserId), {
+        setDoc(doc(db, "users' chats", currentUserId), {
           routes: arrayUnion("/chatting/" + roomId + "/" + userName)
         });
       }
     })
 
     try {
-      updateDoc(doc(db, "chats", currentUserId), {
+      updateDoc(doc(db, "users' chats", currentUserId), {
         routes: arrayUnion("/chatting/" + roomId + "/" + userName)
       });
     } catch (e) {
