@@ -4,6 +4,8 @@ import io from 'socket.io-client'
 import ChatRoomHeader from '../components/ChatRoomHeader'
 import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
+import { auth, db } from '../firebase';
+import { doc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore"; 
 
 let socket;
 
@@ -14,6 +16,7 @@ const ChatPlatform = () => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  const currentUserId = auth.currentUser.uid;
   const params = useParams();
 
   useEffect(() => {
@@ -26,7 +29,23 @@ const ChatPlatform = () => {
       if(error) 
         alert(error);
     })
-  }, [params])
+
+    getDoc(doc(db, "users' chats", currentUserId)).then(docSnap => {
+      if (!docSnap.exists()) {
+        setDoc(doc(db, "users' chats", currentUserId), {
+          routes: arrayUnion("/chatting/" + roomId + "/" + userName)
+        });
+      }
+    })
+
+    try {
+      updateDoc(doc(db, "users' chats", currentUserId), {
+        routes: arrayUnion("/chatting/" + roomId + "/" + userName)
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }, [params, currentUserId])
 
   useEffect(() => {
     socket.on('message', (message) => {
@@ -43,6 +62,23 @@ const ChatPlatform = () => {
     event.preventDefault();
     if(message) {
       socket.emit('sendMessage', message, () => setMessage(''));
+    
+      getDoc(doc(db, "chat history", roomId)).then(docSnap => {
+        if (!docSnap.exists()) {
+          setDoc(doc(db, "chat history", roomId), {
+            messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
+          });
+        }
+      })
+
+      try {
+        updateDoc(doc(db, "chat history", roomId), {
+          messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
+        });
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+
     }
   }
   //console.log(users);
