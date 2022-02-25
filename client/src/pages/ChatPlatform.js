@@ -66,14 +66,14 @@ const ChatPlatform = () => {
       getDoc(doc(db, "chat history", roomId)).then(docSnap => {
         if (!docSnap.exists()) {
           setDoc(doc(db, "chat history", roomId), {
-            messages: arrayUnion(currentUserId + ":" + message)
+            messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
           });
         }
       })
 
       try {
         updateDoc(doc(db, "chat history", roomId), {
-          messages: arrayUnion(currentUserId + ":" + message)
+          messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
         });
       } catch (e) {
         console.error("Error adding document: ", e);
