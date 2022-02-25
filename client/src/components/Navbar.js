@@ -26,7 +26,7 @@ const Navbar = () => {
         <div>
           {user ? (
           <>
-            <Link to='/profile'>Profile</Link>
+            <Link to='/mychats'>MyChats</Link>
             <button className='logout-btn' onClick={handleSignout}>Logout</button>
           </> 
             ) : (
