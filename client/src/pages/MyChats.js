@@ -19,7 +19,11 @@ const MyChats = () => {
       })
     }, [])
     console.log("Outside the function!!!!" + routes);
-  
+    const myArray = routes + '';
+    const myArray2 = myArray.split(',');
+    console.log("First Route" + myArray2[1]);
+
+
     return (
         <div>
             <li>Chat Rooms Here</li>
