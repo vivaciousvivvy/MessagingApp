@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getDoc, doc } from "firebase/firestore";
 import { db, auth } from '../firebase';
+import UserRoute from '../components/UserRoute';
 
 const MyChats = () => {
     const [routes, setRoutes] = useState([]);
@@ -22,11 +23,17 @@ const MyChats = () => {
     const routeString = routes + '';
     const routesArray = routeString.split(',');
     console.log("First Route" + routesArray[1]);
+    let routeNum = 1;
 
 
     return (
         <div>
-            <li>Chat Rooms Here</li>
+            <div className='routes-container'>
+              <div className='user-routes'>
+                <h3 className='user-chat-list'>Your Chats</h3>
+                {routesArray.map(route => <UserRoute key={routeNum++} route = {route} />)}
+              </div>
+            </div>
         </div>
     )
 }
