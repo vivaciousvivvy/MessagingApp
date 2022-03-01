@@ -32,19 +32,22 @@ const ChatPlatform = () => {
 
     getDoc(doc(db, "users' chats", currentUserId)).then(docSnap => {
       if (!docSnap.exists()) {
-        addDoc(doc(db, "users' chats", currentUserId), {
+        setDoc(doc(db, "users' chats", currentUserId), {
           routes: arrayUnion("/chatting/" + roomId + "/" + userName)
         });
       }
+      else
+      {
+        try {
+          updateDoc(doc(db, "users' chats", currentUserId), {
+            routes: arrayUnion("/chatting/" + roomId + "/" + userName)
+          });
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      }
     })
 
-    try {
-      updateDoc(doc(db, "users' chats", currentUserId), {
-        routes: arrayUnion("/chatting/" + roomId + "/" + userName)
-      });
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
   }, [params, currentUserId])
 
   useEffect(() => {
