@@ -93,3 +93,30 @@ section .form {
     background-color: wheat;
     padding: 10px;
 }
+
+/* User chat list styles */
+.user-routes {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.user-routes-header {
+    font-size: 40px;
+    font-family:monospace;
+}
+
+.route-item {
+    list-style-type: number;
+    font-size: 20px;
+    margin-top: 10px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: black;
+}
+
+.route-item a{
+    color: black;
+}
+
+.route-item a:hover{
+    color: blue;
+}
