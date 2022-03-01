@@ -5,7 +5,7 @@ import ChatRoomHeader from '../components/ChatRoomHeader'
 import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
 import { auth, db } from '../firebase';
-import { doc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore"; 
+import { doc, addDoc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore"; 
 
 let socket;
 
@@ -32,7 +32,7 @@ const ChatPlatform = () => {
 
     getDoc(doc(db, "users' chats", currentUserId)).then(docSnap => {
       if (!docSnap.exists()) {
-        setDoc(doc(db, "users' chats", currentUserId), {
+        addDoc(doc(db, "users' chats", currentUserId), {
           routes: arrayUnion("/chatting/" + roomId + "/" + userName)
         });
       }
