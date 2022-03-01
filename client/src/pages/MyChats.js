@@ -12,27 +12,22 @@ const MyChats = () => {
         if (docSnap.exists()) {
           let currentRoutes = [];
           currentRoutes = docSnap.get("routes");
-          console.log("The chat routes are " + currentRoutes);
           setRoutes(currentRoutes);
         } else {
           console.log("No such document!");
         }
       })
     }, [])
-    console.log("Outside the function!!!!" + routes);
     const routeString = routes + '';
     const routesArray = routeString.split(',');
-    console.log("First Route" + routesArray[1]);
     let routeNum = 1;
 
 
     return (
         <div>
-            <div className='routes-container'>
-              <div className='user-routes'>
-                <h3 className='user-chat-list'>Your Chats</h3>
+            <div className='user-routes'>
+                <h1 className='user-routes-header'> Your Chats</h1>
                 {routesArray.map(route => <UserRoute key={routeNum++} route = {route} />)}
-              </div>
             </div>
         </div>
     )
