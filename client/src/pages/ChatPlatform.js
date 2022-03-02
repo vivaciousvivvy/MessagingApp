@@ -72,16 +72,16 @@ const ChatPlatform = () => {
             messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
           });
         }
+        else {
+          try {
+            updateDoc(doc(db, "chat history", roomId), {
+              messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
+            });
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        }
       })
-
-      try {
-        updateDoc(doc(db, "chat history", roomId), {
-          messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
-        });
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-
     }
   }
   //console.log(users);
