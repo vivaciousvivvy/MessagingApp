@@ -6,6 +6,7 @@ import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
 import { auth, db } from '../firebase';
 import { doc, addDoc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore"; 
+import PreviousMessages from '../components/PreviousMessages'
 
 let socket;
 
@@ -15,6 +16,7 @@ const ChatPlatform = () => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [oldMessages, setOldMessages] = useState([]);
 
   const currentUserId = auth.currentUser.uid;
   const params = useParams();
@@ -28,6 +30,16 @@ const ChatPlatform = () => {
     socket.emit('join', { userName, roomId }, (error) => {
       if(error) 
         alert(error);
+      getDoc(doc(db, "chat history", roomId)).then(docSnap => {
+        if (docSnap.exists()) {
+          let dbChats = [];
+          dbChats = docSnap.get("messages");
+          setOldMessages(dbChats);
+          console.log("Success!!!" + dbChats);
+        } else {
+          console.log("No such document!");
+        }
+      })
     })
 
     getDoc(doc(db, "users' chats", currentUserId)).then(docSnap => {
@@ -86,9 +98,12 @@ const ChatPlatform = () => {
   }
   //console.log(users);
 
+  const oldMsgArray = (oldMessages + '').split(',');
+  console.log("First msg: " + oldMsgArray[0]);
   return (
     <section>
       <ChatRoomHeader roomId={roomId}/>
+      <PreviousMessages messages={oldMsgArray} userName={userName} />
       <Messages messages={messages} userName={userName}/>
       <MessageInput sendMessage={sendMessage} message={message} setMessage={setMessage}/>
     </section>
