@@ -102,7 +102,7 @@ const ChatPlatform = () => {
   console.log("First msg: " + oldMsgArray[0]);
   return (
     <section>
-      <ChatRoomHeader roomId={roomId}/>
+      <ChatRoomHeader roomId={roomId} userName={userName}/>
       <PreviousMessages messages={oldMsgArray} userName={userName} />
       <Messages messages={messages} userName={userName}/>
       <MessageInput sendMessage={sendMessage} message={message} setMessage={setMessage}/>
