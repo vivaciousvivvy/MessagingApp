@@ -5,7 +5,8 @@ import ChatRoomHeader from '../components/ChatRoomHeader'
 import MessageInput from '../components/MessageInput'
 import Messages from '../components/Messages'
 import { auth, db } from '../firebase';
-import { doc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore"; 
+import { doc, addDoc, getDoc, setDoc, updateDoc, arrayUnion} from "firebase/firestore"; 
+import PreviousMessages from '../components/PreviousMessages'
 
 let socket;
 
@@ -15,6 +16,7 @@ const ChatPlatform = () => {
   const [users, setUsers] = useState('');
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [oldMessages, setOldMessages] = useState([]);
 
   const currentUserId = auth.currentUser.uid;
   const params = useParams();
@@ -28,6 +30,16 @@ const ChatPlatform = () => {
     socket.emit('join', { userName, roomId }, (error) => {
       if(error) 
         alert(error);
+      getDoc(doc(db, "chat history", roomId)).then(docSnap => {
+        if (docSnap.exists()) {
+          let dbChats = [];
+          dbChats = docSnap.get("messages");
+          setOldMessages(dbChats);
+          console.log("Success!!!" + dbChats);
+        } else {
+          console.log("No such document!");
+        }
+      })
     })
 
     getDoc(doc(db, "users' chats", currentUserId)).then(docSnap => {
@@ -36,15 +48,18 @@ const ChatPlatform = () => {
           routes: arrayUnion("/chatting/" + roomId + "/" + userName)
         });
       }
+      else
+      {
+        try {
+          updateDoc(doc(db, "users' chats", currentUserId), {
+            routes: arrayUnion("/chatting/" + roomId + "/" + userName)
+          });
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
+      }
     })
 
-    try {
-      updateDoc(doc(db, "users' chats", currentUserId), {
-        routes: arrayUnion("/chatting/" + roomId + "/" + userName)
-      });
-    } catch (e) {
-      console.error("Error adding document: ", e);
-    }
   }, [params, currentUserId])
 
   useEffect(() => {
@@ -66,26 +81,29 @@ const ChatPlatform = () => {
       getDoc(doc(db, "chat history", roomId)).then(docSnap => {
         if (!docSnap.exists()) {
           setDoc(doc(db, "chat history", roomId), {
-            messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
+            messages: arrayUnion(userName + ":" + message)
           });
         }
+        else {
+          try {
+            updateDoc(doc(db, "chat history", roomId), {
+              messages: arrayUnion(userName + ":" + message)
+            });
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+        }
       })
-
-      try {
-        updateDoc(doc(db, "chat history", roomId), {
-          messages: arrayUnion(currentUserId + ":" + userName + ":" + message)
-        });
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-
     }
   }
   //console.log(users);
 
+  const oldMsgArray = (oldMessages + '').split(',');
+  console.log("First msg: " + oldMsgArray[0]);
   return (
     <section>
-      <ChatRoomHeader roomId={roomId}/>
+      <ChatRoomHeader roomId={roomId} userName={userName}/>
+      <PreviousMessages messages={oldMsgArray} userName={userName} />
       <Messages messages={messages} userName={userName}/>
       <MessageInput sendMessage={sendMessage} message={message} setMessage={setMessage}/>
     </section>
