@@ -25,9 +25,6 @@ const Login = () => {
     event.preventDefault();
     setData({...data, error: null, loading: true});
 
-    if(!email || !password) {
-      setData({...data, error: 'All fields are required!'});
-    }
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       await updateDoc(doc(db, 'users', result.user.uid), {
@@ -36,7 +33,24 @@ const Login = () => {
       setData({ email: '', password: '', error: null, loading: false});
       navigate('/');
     } catch (err) {
-      setData({...data, error: err.message, loading: false});
+      if(email === "" || password === "")
+      {
+        setData({...data, error: "Please fill out all of the fields.", loading: false});
+      }
+      else if(err.message === "Firebase: Error (auth/invalid-email).")
+      {
+        setData({...data, error: "Invalid email. Please use a different email.", loading: false});
+      }
+      else if(err.message === "Firebase: Error (auth/wrong-password).")
+      {
+        setData({...data, error: "Incorrect credentials. Please verify that you have entered the right email and password.", loading: false});
+      }
+      else if(err.message === "Firebase: Error (auth/user-not-found).")
+      {
+        setData({...data, error: "The email that you have entered does not have an associated account. Try registering with this email or use a different email address.", loading: false});
+      }
+      else
+        setData({...data, error: err.message, loading: false});
     }
   };
 

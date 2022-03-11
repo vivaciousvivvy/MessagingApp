@@ -26,9 +26,6 @@ const Register = () => {
     event.preventDefault();
     setData({...data, error: null, loading: true});
 
-    if(!name || !email || !password) {
-      setData({...data, error: 'All fields are required!'});
-    }
     try {
       const result = await createUserWithEmailAndPassword(auth, email, password);
       await setDoc(doc(db, 'users', result.user.uid), {
@@ -41,7 +38,20 @@ const Register = () => {
       setData({name: '', email: '', password: '', error: null, loading: false});
       navigate('/');
     } catch (err) {
-      setData({...data, error: err.message, loading: false});
+      if(email === "" || password === "" || name === "")
+      {
+        setData({...data, error: "Please fill out all of the fields.", loading: false});
+      }
+      else if(err.message === "Firebase: Password should be at least 6 characters (auth/weak-password).")
+      {
+        setData({...data, error: "Your password must be greater than 6 characters.", loading: false});
+      }
+      else if(err.message === "Firebase: Error (auth/email-already-in-use).")
+      {
+        setData({...data, error: "This email is already taken by another user. Please try using a different email address.", loading: false});
+      }
+      else
+        setData({...data, error: err.message, loading: false});
     }
   };
 
