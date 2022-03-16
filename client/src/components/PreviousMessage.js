@@ -2,7 +2,7 @@ import React from 'react'
 import ReactEmoji from 'react-emoji'
 
 const PreviousMessage = ({ message, userName }) => {
-    let currentMessage = message.split(':');
+    let currentMessage = message.split('//');
     let sentByThisUser = false;
     const trimmedUserName = userName.trim().toLowerCase();
     if(currentMessage[0] === trimmedUserName) {
